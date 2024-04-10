@@ -43,7 +43,7 @@
             mkdir -p deploy
             cp build/libs/*.jar deploy/application.jar
             cp Procfile deploy/Procfile
-            cp -r .ebextensions deploy/.ebextensions
+            cp -r .ebextensions_dev deploy/.ebextensions
             cp -r .platform deploy/.platform
             cd deploy && zip -r deploy.zip .
 
@@ -52,8 +52,8 @@
           with:
             aws_access_key: ${{secrets.AWS_ACTION_ACCESS_KEY_ID}}
             aws_secret_key: ${{secrets.AWS_ACTION_SECRET_ACCESS_KEY}}
-            application_name: test8-dev
-            environment_name: Test8-dev-env
+            application_name: sku-festival-dev
+            environment_name: Sku-festival-dev-env
             version_label: github-action-${{ steps.current-time.outputs.formattedTime }}
             use_existing_version_if_available: true
             region: ap-northeast-2
