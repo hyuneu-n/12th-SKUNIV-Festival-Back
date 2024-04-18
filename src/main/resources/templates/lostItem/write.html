@@ -1,0 +1,18 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+<form action="/lostItem/post" method="post" enctype="multipart/form-data">
+    분실물 : <input type="text" name="lostItemName" placeholder="분실물을 입력해주세요"> <br>
+    사진 : <input type="file" name="file" /> <br>
+    날짜 : <input type="date" name="lostDate"> <br>
+    시간 : <input type="time" name="lostTime"> <br>
+    장소 : <input type="text" name="location" placeholder="발견 장소를 입력해주세요"> <br>
+
+    <input type="submit" value="Upload">
+</form>
+</body>
+</html>
