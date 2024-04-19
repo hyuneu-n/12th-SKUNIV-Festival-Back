@@ -11,7 +11,7 @@ import java.util.List;
 
 @Component
 @RequiredArgsConstructor
-public class CustomlostItemRepositorylmpl implements CustomlostItemRepository {
+public class CustomlostItemRepositoryImpl implements CustomlostItemRepository {
 
     private final EntityManager entityManager;
 
