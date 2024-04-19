@@ -1,5 +1,3 @@
-<<<<<<< HEAD
-=======
 ##Swagger
 #springdoc:
 #  swagger-ui:
@@ -24,9 +22,8 @@ springdoc:
     enabled: true
     path: /swagger-ui.html
   paths-to-match:
-      - /api/**
+    - /api/**
 
->>>>>>> 650c3d7ebeb1fb119e06c8b79563bb6ab06fd82c
 # JPA
 spring:
   datasource:
@@ -34,17 +31,6 @@ spring:
     url: ${SPRING_DATASOURCE_URL}
     username: root
     password: ${SPRING_DATASOURCE_PASSWORD}
-<<<<<<< HEAD
-  jpa:
-    database: mysql
-    database-platform: org.hibernate.dialect.MySQLDialect
-    show-sql: true
-    hibernate:
-      ddl-auto: update
-    properties:
-      hibernate:
-        format_sql: true
-=======
 
 #  jpa:
 #    database: mysql
@@ -55,4 +41,3 @@ spring:
 #    properties:
 #      hibernate:
 #        format_sql: true
->>>>>>> 650c3d7ebeb1fb119e06c8b79563bb6ab06fd82c
