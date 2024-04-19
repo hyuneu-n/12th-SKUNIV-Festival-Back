@@ -43,5 +43,4 @@ public class lostItemController {
         return ResponseEntity.ok(lostitemResponses); //조회 결과 반환
     }
 
-
 }
