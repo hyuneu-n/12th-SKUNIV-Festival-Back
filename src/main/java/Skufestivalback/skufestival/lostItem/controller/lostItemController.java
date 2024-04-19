@@ -26,7 +26,7 @@ public class lostItemController {
     private final FindlostItemService findlostItemService;
 
     //분실물 조회 API
-    @Operation(summary = "분실물 작성 요청", description = "분실물을 작성합니다.", tags = { "Post lostItem" })
+    @Operation(summary = "getLostItem", description = "분실물 조회", tags = { "LostItem" })
     @ApiResponses({
             @ApiResponse(responseCode = "200", description = "OK",
                     content = @Content(schema = @Schema(implementation = lostItemResponse.class))),
@@ -36,7 +36,7 @@ public class lostItemController {
     })
     @GetMapping
     public ResponseEntity<List<lostItemResponse>> find(
-            @RequestParam(name = "lastId", defaultValue = "HaPpy508") String lastlostItemId,
+            @RequestParam(name = "lastId", defaultValue = "0") Long lastlostItemId,
             @RequestParam(name = "size", defaultValue = "8") Integer pageSize
     ){
         FindlostItemCommand command = new FindlostItemCommand(lastlostItemId, pageSize);
