@@ -22,7 +22,6 @@ import java.util.List;
 @RequestMapping("/api/lostitem")
 public class lostItemController {
 
-    //서비스 의존성 주입
     private final FindlostItemService findlostItemService;
 
     //분실물 조회 API
@@ -34,10 +33,10 @@ public class lostItemController {
             @ApiResponse(responseCode = "404", description = "NOT FOUND"),
             @ApiResponse(responseCode = "500", description = "INTERNAL SERVER ERROR")
     })
-    @GetMapping
+    @GetMapping("/posts")
     public ResponseEntity<List<lostItemResponse>> find(
             @RequestParam(name = "lastId", defaultValue = "0") Long lastlostItemId,
-            @RequestParam(name = "size", defaultValue = "8") Integer pageSize
+            @RequestParam(name = "size", defaultValue = "8") Integer pageSize //한 페이지에 8개 게시글
     ){
         FindlostItemCommand command = new FindlostItemCommand(lastlostItemId, pageSize);
         List<lostItemResponse> lostitemResponses = findlostItemService.doService(command);

@@ -11,20 +11,16 @@ import lombok.RequiredArgsConstructor;
 public class lostItemResponse {
 
     private LocalDateTime createdDate;
-    private final String content;
 
     private final String lostItemName;
-    private final String lostItemImage;
+    private final String lostItemImagePath;
     private final String lostDate;
     private final String lostLocation;
 
-
-    // 전체 필드를 포함하는 생성자
-    public lostItemResponse(LocalDateTime createdDate, String content, String lostItemName, String lostItemImage, String lostDate, String lostLocation) {
+    public lostItemResponse(LocalDateTime createdDate, String lostItemName, String lostItemImagePath, String lostDate, String lostLocation) {
         this.createdDate = createdDate;
-        this.content = content;
         this.lostItemName = lostItemName;
-        this.lostItemImage = lostItemImage;
+        this.lostItemImagePath = lostItemImagePath;
         this.lostDate = lostDate;
         this.lostLocation = lostLocation;
     }
@@ -33,9 +29,8 @@ public class lostItemResponse {
     public static lostItemResponse build(lostItem lostItem) {
         return new lostItemResponse(
                 lostItem.getCreatedDate(),
-                lostItem.getContent(),
                 lostItem.getLostItemName(),
-                lostItem.getLostItemImage(),
+                lostItem.getLostItemImagePath(),
                 lostItem.getLostDate(),
                 lostItem.getLostLocation()
         );
