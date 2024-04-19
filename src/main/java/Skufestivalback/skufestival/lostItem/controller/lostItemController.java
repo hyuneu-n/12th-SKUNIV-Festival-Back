@@ -4,6 +4,7 @@ import Skufestivalback.skufestival.lostItem.dto.FindlostItemCommand;
 import Skufestivalback.skufestival.lostItem.dto.lostItemResponse;
 import Skufestivalback.skufestival.lostItem.service.FindlostItemService;
 import Skufestivalback.skufestival.lostItem.service.PostlostItemService;
+import org.springframework.web.multipart.MultipartFile;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.media.Content;
 import io.swagger.v3.oas.annotations.media.Schema;
@@ -13,6 +14,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.io.IOException;
 import java.util.List;
 
 @RestController
@@ -52,10 +54,28 @@ public class lostItemController {
             @ApiResponse(responseCode = "500", description = "INTERNAL SERVER ERROR")
     })
 
+    /*
     @PostMapping("/post")
     public ResponseEntity<Void> register(@RequestBody String lostItemName, String lostItemImagePath, String lostDate, String lostLocation) {
         postlostItemService.doService(lostItemName, lostItemImagePath, lostDate, lostLocation);
         return ResponseEntity.ok().build(); //등록 성공 응답
+    }*/
+
+    //분실물 등록 API
+    @PostMapping("/post")
+    public ResponseEntity<Void> register(
+            @RequestParam String lostItemName,
+            @RequestParam("file") MultipartFile file,
+            @RequestParam String lostDate,
+            @RequestParam String lostLocation
+    )throws IOException {
+        postlostItemService.doService(lostItemName, file, lostDate, lostLocation);
+        return ResponseEntity.ok().build();
     }
 
+    @ExceptionHandler(IOException.class)
+    public ResponseEntity<String> handleIOException(IOException ex) {
+        //로그 남기기, 에러 처리 로직
+        return ResponseEntity.status(500).body("File processing failed: " + ex.getMessage());
+    }
 }
