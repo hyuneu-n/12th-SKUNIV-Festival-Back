@@ -1,8 +1,10 @@
 package Skufestivalback.skufestival.lostItem.controller;
 
+import Skufestivalback.skufestival.lostItem.dto.DeletelostItemCommand;
 import Skufestivalback.skufestival.lostItem.dto.FindlostItemCommand;
 import Skufestivalback.skufestival.lostItem.dto.UpdatelostItemCommand;
 import Skufestivalback.skufestival.lostItem.dto.lostItemResponse;
+import Skufestivalback.skufestival.lostItem.service.DeletelostItemService;
 import Skufestivalback.skufestival.lostItem.service.FindlostItemService;
 import Skufestivalback.skufestival.lostItem.service.PostlostItemService;
 import Skufestivalback.skufestival.lostItem.service.UpdatelostItemService;
@@ -27,6 +29,7 @@ public class lostItemController {
     private final FindlostItemService findlostItemService;
     private final PostlostItemService postlostItemService;
     private final UpdatelostItemService updatelostItemService;
+    private final DeletelostItemService deletelostItemService;
 
     //분실물 조회 API
     @Operation(summary = "getLostItem", description = "분실물 조회", tags = { "LostItem" })
@@ -98,6 +101,22 @@ public class lostItemController {
     ) {
         UpdatelostItemCommand command = new UpdatelostItemCommand(id, name, date, location);
         updatelostItemService.doService(command);
-        return ResponseEntity.ok().build(); // 업데이트 성공 응답
+        return ResponseEntity.ok().build(); //업데이트 성공 응답
+    }
+
+    //분실물 삭제 API
+    @Operation(summary = "deleteLostItem", description = "분실물 삭제", tags = { "LostItem" })
+    @ApiResponses({
+            @ApiResponse(responseCode = "200", description = "OK",
+                    content = @Content(schema = @Schema(implementation = lostItemResponse.class))),
+            @ApiResponse(responseCode = "400", description = "BAD REQUEST"),
+            @ApiResponse(responseCode = "404", description = "NOT FOUND"),
+            @ApiResponse(responseCode = "500", description = "INTERNAL SERVER ERROR")
+    })
+    @DeleteMapping("/delete")
+    public ResponseEntity<Void> delete(@RequestParam("id") String noticeId) {
+        DeletelostItemCommand command = new DeletelostItemCommand(noticeId);
+        deletelostItemService.doService(command);
+        return ResponseEntity.ok().build(); //삭제 성공 응답
     }
 }
