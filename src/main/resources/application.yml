@@ -1,5 +1,4 @@
 
-spring.application.name=sku-festival
 springdoc:
   api-docs:
     enabled: true
