@@ -1,17 +1,17 @@
-package Skufestivalback.skufestival.lostItem.dto;
+package Skufestivalback.skufestival.notice.dto;
 
-import Skufestivalback.skufestival.common.util.TsidUtil;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
+import Skufestivalback.skufestival.common.util.TsidUtil;
 
 @Getter
 @AllArgsConstructor
-public class FindlostItemCommand {
+public class FindNoticeCommand {
 
     private final long lastId;
     private final int pageSize;
 
-    public FindlostItemCommand(String lastId, int pageSize){
+    public FindNoticeCommand(String lastId, int pageSize) {
         this.lastId = TsidUtil.toLong(lastId);
         this.pageSize = pageSize;
     }
