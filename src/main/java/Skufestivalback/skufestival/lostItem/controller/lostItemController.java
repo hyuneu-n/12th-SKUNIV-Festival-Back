@@ -3,6 +3,8 @@ package Skufestivalback.skufestival.lostItem.controller;
 import Skufestivalback.skufestival.lostItem.dto.FindlostItemCommand;
 import Skufestivalback.skufestival.lostItem.dto.lostItemResponse;
 import Skufestivalback.skufestival.lostItem.service.FindlostItemService;
+import Skufestivalback.skufestival.lostItem.service.PostlostItemService;
+import org.springframework.web.multipart.MultipartFile;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.media.Content;
 import io.swagger.v3.oas.annotations.media.Schema;
@@ -10,11 +12,9 @@ import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.responses.ApiResponses;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
+import java.io.IOException;
 import java.util.List;
 
 @RestController
@@ -23,6 +23,7 @@ import java.util.List;
 public class lostItemController {
 
     private final FindlostItemService findlostItemService;
+    private final PostlostItemService postlostItemService;
 
     //분실물 조회 API
     @Operation(summary = "getLostItem", description = "분실물 조회", tags = { "LostItem" })
@@ -43,4 +44,38 @@ public class lostItemController {
         return ResponseEntity.ok(lostitemResponses); //조회 결과 반환
     }
 
+    //분실물 등록 API
+    @Operation(summary = "postLostItem", description = "분실물 작성", tags = { "LostItem" })
+    @ApiResponses({
+            @ApiResponse(responseCode = "200", description = "OK",
+                    content = @Content(schema = @Schema(implementation = lostItemResponse.class))),
+            @ApiResponse(responseCode = "400", description = "BAD REQUEST"),
+            @ApiResponse(responseCode = "404", description = "NOT FOUND"),
+            @ApiResponse(responseCode = "500", description = "INTERNAL SERVER ERROR")
+    })
+
+    /*
+    @PostMapping("/post")
+    public ResponseEntity<Void> register(@RequestBody String lostItemName, String lostItemImagePath, String lostDate, String lostLocation) {
+        postlostItemService.doService(lostItemName, lostItemImagePath, lostDate, lostLocation);
+        return ResponseEntity.ok().build(); //등록 성공 응답
+    }*/
+
+    //분실물 등록 API
+    @PostMapping("/post")
+    public ResponseEntity<Void> register(
+            @RequestParam String lostItemName,
+            @RequestParam("file") MultipartFile file,
+            @RequestParam String lostDate,
+            @RequestParam String lostLocation
+    )throws IOException {
+        postlostItemService.doService(lostItemName, file, lostDate, lostLocation);
+        return ResponseEntity.ok().build();
+    }
+
+    @ExceptionHandler(IOException.class)
+    public ResponseEntity<String> handleIOException(IOException ex) {
+        //로그 남기기, 에러 처리 로직
+        return ResponseEntity.status(500).body("File processing failed: " + ex.getMessage());
+    }
 }
