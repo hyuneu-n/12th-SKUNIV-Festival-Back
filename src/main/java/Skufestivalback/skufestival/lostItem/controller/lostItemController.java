@@ -1,9 +1,11 @@
 package Skufestivalback.skufestival.lostItem.controller;
 
 import Skufestivalback.skufestival.lostItem.dto.FindlostItemCommand;
+import Skufestivalback.skufestival.lostItem.dto.UpdatelostItemCommand;
 import Skufestivalback.skufestival.lostItem.dto.lostItemResponse;
 import Skufestivalback.skufestival.lostItem.service.FindlostItemService;
 import Skufestivalback.skufestival.lostItem.service.PostlostItemService;
+import Skufestivalback.skufestival.lostItem.service.UpdatelostItemService;
 import org.springframework.web.multipart.MultipartFile;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.media.Content;
@@ -24,6 +26,7 @@ public class lostItemController {
 
     private final FindlostItemService findlostItemService;
     private final PostlostItemService postlostItemService;
+    private final UpdatelostItemService updatelostItemService;
 
     //분실물 조회 API
     @Operation(summary = "getLostItem", description = "분실물 조회", tags = { "LostItem" })
@@ -61,7 +64,6 @@ public class lostItemController {
         return ResponseEntity.ok().build(); //등록 성공 응답
     }*/
 
-    //분실물 등록 API
     @PostMapping("/post")
     public ResponseEntity<Void> register(
             @RequestParam String lostItemName,
@@ -72,10 +74,30 @@ public class lostItemController {
         postlostItemService.doService(lostItemName, file, lostDate, lostLocation);
         return ResponseEntity.ok().build();
     }
-
     @ExceptionHandler(IOException.class)
     public ResponseEntity<String> handleIOException(IOException ex) {
         //로그 남기기, 에러 처리 로직
         return ResponseEntity.status(500).body("File processing failed: " + ex.getMessage());
+    }
+
+    // 분실물 수정 API (사진은 수정불가)
+    @Operation(summary = "updateLostItem", description = "분실물 수정", tags = { "LostItem" })
+    @ApiResponses({
+            @ApiResponse(responseCode = "200", description = "OK",
+                    content = @Content(schema = @Schema(implementation = lostItemResponse.class))),
+            @ApiResponse(responseCode = "400", description = "BAD REQUEST"),
+            @ApiResponse(responseCode = "404", description = "NOT FOUND"),
+            @ApiResponse(responseCode = "500", description = "INTERNAL SERVER ERROR")
+    })
+    @PatchMapping("/edit/{id}")
+    public ResponseEntity<Void> update(
+            @PathVariable Long id,
+            @RequestParam String name,
+            @RequestParam String date,
+            @RequestParam String location
+    ) {
+        UpdatelostItemCommand command = new UpdatelostItemCommand(id, name, date, location);
+        updatelostItemService.doService(command);
+        return ResponseEntity.ok().build(); // 업데이트 성공 응답
     }
 }
