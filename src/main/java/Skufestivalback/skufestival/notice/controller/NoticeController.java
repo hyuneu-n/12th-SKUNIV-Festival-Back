@@ -1,9 +1,6 @@
 package Skufestivalback.skufestival.notice.controller;
 
-import Skufestivalback.skufestival.notice.dto.DeleteNoticeCommand;
-import Skufestivalback.skufestival.notice.dto.FindNoticeCommand;
-import Skufestivalback.skufestival.notice.dto.NoticeResponse;
-import Skufestivalback.skufestival.notice.dto.UpdateNoticeCommand;
+import Skufestivalback.skufestival.notice.dto.*;
 import Skufestivalback.skufestival.notice.service.DeleteNoticeService;
 import Skufestivalback.skufestival.notice.service.FindNoticeService;
 import Skufestivalback.skufestival.notice.service.PostNoticeService;
@@ -60,9 +57,9 @@ public class NoticeController {
     })
 
     @PostMapping("/post")
-    public ResponseEntity<Void> register(@RequestBody String title, String content) {
-        postNoticeService.doService(title, content);
-        return ResponseEntity.ok().build(); //등록 성공 응답
+    public ResponseEntity<Void> register(@RequestBody NoticeRequest noticeRequest) {
+        postNoticeService.doService(noticeRequest.getTitle(), noticeRequest.getContent());
+        return ResponseEntity.ok().build();
     }
 
     //공지사항 수정 API
@@ -74,12 +71,12 @@ public class NoticeController {
             @ApiResponse(responseCode = "404", description = "NOT FOUND"),
             @ApiResponse(responseCode = "500", description = "INTERNAL SERVER ERROR")
     })
-    
+
     @PutMapping("/edit")
-    public ResponseEntity<Void> update(@RequestParam("id") String noticeId, @RequestBody String title, @RequestBody String content) {
-        UpdateNoticeCommand command = new UpdateNoticeCommand(noticeId, content);
+    public ResponseEntity<Void> update(@RequestParam("id") String noticeId, @RequestBody NoticeUpdateRequest updateRequest) {
+        UpdateNoticeCommand command = new UpdateNoticeCommand(noticeId, updateRequest.getTitle(), updateRequest.getContent());
         updateNoticeService.doService(command);
-        return ResponseEntity.ok().build(); //수정 성공 응답
+        return ResponseEntity.ok().build();
     }
 
     //공지사항 삭제 API
