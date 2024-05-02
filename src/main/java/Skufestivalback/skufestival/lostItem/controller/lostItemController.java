@@ -20,6 +20,7 @@ import org.springframework.web.bind.annotation.*;
 
 import java.io.IOException;
 import java.util.List;
+import java.util.Map;
 
 @RestController
 @RequiredArgsConstructor
@@ -60,23 +61,17 @@ public class lostItemController {
             @ApiResponse(responseCode = "500", description = "INTERNAL SERVER ERROR")
     })
 
-    /*
-    @PostMapping("/post")
-    public ResponseEntity<Void> register(@RequestBody String lostItemName, String lostItemImagePath, String lostDate, String lostLocation) {
-        postlostItemService.doService(lostItemName, lostItemImagePath, lostDate, lostLocation);
-        return ResponseEntity.ok().build(); //등록 성공 응답
-    }*/
-
-    @PostMapping("/post")
-    public ResponseEntity<Void> register(
-            @RequestParam String lostItemName,
-            @RequestParam("file") MultipartFile file,
-            @RequestParam String lostDate,
-            @RequestParam String lostLocation
-    )throws IOException {
+    @PostMapping(value = "/post", consumes = "multipart/form-data")
+    public ResponseEntity<Object> register(
+            @RequestPart(value = "file", required = true) MultipartFile file,
+            @RequestParam(value = "lostItemName") String lostItemName,
+            @RequestParam(value = "lostDate") String lostDate,
+            @RequestParam(value = "lostLocation") String lostLocation
+    ) throws IOException {
         postlostItemService.doService(lostItemName, file, lostDate, lostLocation);
         return ResponseEntity.ok().build();
     }
+
     @ExceptionHandler(IOException.class)
     public ResponseEntity<String> handleIOException(IOException ex) {
         //로그 남기기, 에러 처리 로직

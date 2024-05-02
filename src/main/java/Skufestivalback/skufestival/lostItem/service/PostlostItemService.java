@@ -22,7 +22,7 @@ public class PostlostItemService {
     @Transactional
     public void doService(String lostItemName, MultipartFile file, String lostDate, String lostLocation) throws IOException {
 
-        String directory = "/resources/statics/files";
+        String directory = "C:\\Users\\hyune\\Desktop\\12th-SKUNIV-Festival-Back\\src\\main\\resources\\static";
         String filename = file.getOriginalFilename();
         Path filePath = Paths.get(directory, filename);
         Files.copy(file.getInputStream(), filePath);
