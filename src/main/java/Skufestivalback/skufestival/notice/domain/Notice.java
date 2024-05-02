@@ -12,10 +12,12 @@ import lombok.NoArgsConstructor;
 public class Notice extends BaseTimeEntity {
 
     @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @Lob
     private String title;
+
+    @Lob
     private String content;
 
     public Notice(String title, String content) {
