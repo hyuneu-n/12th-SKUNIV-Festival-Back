@@ -10,7 +10,7 @@ import java.util.List;
 @Repository
 public interface lostItemRepository extends JpaRepository<lostItem, Long>, CustomlostItemRepository {
 
-    @Query(nativeQuery = true, value = "SELECT * FROM lostItem WHERE id < :lastId ORDER BY id DESC LIMIT :pageSize")
+    @Query(nativeQuery = true, value = "SELECT * FROM lost_item WHERE id < :lastId ORDER BY id DESC LIMIT :pageSize")
     List<lostItem> find(@Param("lastId") Long lastId, @Param("pageSize") int pageSize);
 
 }

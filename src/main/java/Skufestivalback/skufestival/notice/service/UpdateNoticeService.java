@@ -16,6 +16,6 @@ public class UpdateNoticeService {
     @Transactional
     public void doService(UpdateNoticeCommand command) {
         Notice notice = noticeRepository.findByIdOrElseThrow(command.getId());
-        notice.updateContent(command.getContent());
+        notice.updateNotice(command.getTitle(), command.getContent());
     }
 }
