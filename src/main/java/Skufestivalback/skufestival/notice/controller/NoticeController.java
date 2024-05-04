@@ -26,7 +26,7 @@ public class NoticeController {
     private final UpdateNoticeService updateNoticeService;
     private final DeleteNoticeService deleteNoticeService;
 
-    //공지사항 조회 API
+    // 공지사항 조회 API
     @Operation(summary = "getNotice", description = "공지사항 조회", tags = { "Notice" })
     @ApiResponses({
             @ApiResponse(responseCode = "200", description = "OK",
@@ -35,15 +35,10 @@ public class NoticeController {
             @ApiResponse(responseCode = "404", description = "NOT FOUND"),
             @ApiResponse(responseCode = "500", description = "INTERNAL SERVER ERROR")
     })
-
     @GetMapping("/posts")
-    public ResponseEntity<List<NoticeResponse>> find(
-            @RequestParam(name = "lastId", defaultValue = "0") String lastNoticeId,
-            @RequestParam(name = "size", defaultValue = "8") Integer pageSize
-    ) {
-        FindNoticeCommand command = new FindNoticeCommand(lastNoticeId, pageSize);
-        List<NoticeResponse> noticeResponses = findNoticeService.doService(command);
-        return ResponseEntity.ok(noticeResponses); //조회 결과 반환
+    public ResponseEntity<List<NoticeResponse>> find() {
+        List<NoticeResponse> noticeResponses = findNoticeService.doService();
+        return ResponseEntity.ok(noticeResponses); // 조회 결과 반환
     }
 
     //공지사항 등록 API

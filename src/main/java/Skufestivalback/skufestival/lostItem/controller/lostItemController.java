@@ -2,7 +2,6 @@ package Skufestivalback.skufestival.lostItem.controller;
 
 import Skufestivalback.skufestival.S3.S3Uploader;
 import Skufestivalback.skufestival.lostItem.dto.DeletelostItemCommand;
-import Skufestivalback.skufestival.lostItem.dto.FindlostItemCommand;
 import Skufestivalback.skufestival.lostItem.dto.UpdatelostItemCommand;
 import Skufestivalback.skufestival.lostItem.dto.lostItemResponse;
 import Skufestivalback.skufestival.lostItem.service.DeletelostItemService;
@@ -44,13 +43,9 @@ public class lostItemController {
             @ApiResponse(responseCode = "500", description = "INTERNAL SERVER ERROR")
     })
     @GetMapping("/posts")
-    public ResponseEntity<List<lostItemResponse>> find(
-            @RequestParam(name = "lastId", defaultValue = "0") Long lastlostItemId,
-            @RequestParam(name = "size", defaultValue = "8") Integer pageSize //한 페이지에 8개 게시글
-    ){
-        FindlostItemCommand command = new FindlostItemCommand(lastlostItemId, pageSize);
-        List<lostItemResponse> lostitemResponses = findlostItemService.doService(command);
-        return ResponseEntity.ok(lostitemResponses); //조회 결과 반환
+    public ResponseEntity<List<lostItemResponse>> find() {
+        List<lostItemResponse> lostItemResponses = findlostItemService.doService();
+        return ResponseEntity.ok(lostItemResponses);
     }
 
     //분실물 등록 API
