@@ -1,6 +1,5 @@
 package Skufestivalback.skufestival.lostItem.controller;
 
-import Skufestivalback.skufestival.S3.S3Uploader;
 import Skufestivalback.skufestival.lostItem.dto.DeletelostItemCommand;
 import Skufestivalback.skufestival.lostItem.dto.FindlostItemCommand;
 import Skufestivalback.skufestival.lostItem.dto.UpdatelostItemCommand;
@@ -32,7 +31,6 @@ public class lostItemController {
     private final PostlostItemService postlostItemService;
     private final UpdatelostItemService updatelostItemService;
     private final DeletelostItemService deletelostItemService;
-    private final S3Uploader s3Uploader;
 
     //분실물 조회 API
     @Operation(summary = "getLostItem", description = "분실물 조회", tags = { "LostItem" })
@@ -63,22 +61,6 @@ public class lostItemController {
             @ApiResponse(responseCode = "500", description = "INTERNAL SERVER ERROR")
     })
 
-//    @PostMapping(value = "/post", consumes = "multipart/form-data")
-//    public ResponseEntity<Object> register(
-//            @RequestPart(value = "file", required = true) MultipartFile file,
-//            @RequestParam(value = "lostItemName") String lostItemName,
-//            @RequestParam(value = "lostDate") String lostDate,
-//            @RequestParam(value = "lostLocation") String lostLocation
-//    ) throws IOException {
-//        postlostItemService.doService(lostItemName, file, lostDate, lostLocation);
-//        return ResponseEntity.ok().build();
-//    }
-//
-//    @ExceptionHandler(IOException.class)
-//    public ResponseEntity<String> handleIOException(IOException ex) {
-//        //로그 남기기, 에러 처리 로직
-//        return ResponseEntity.status(500).body("File processing failed: " + ex.getMessage());
-//    }
     @PostMapping(value = "/post", consumes = "multipart/form-data")
     public ResponseEntity<Object> register(
             @RequestPart(value = "file", required = true) MultipartFile file,
@@ -86,10 +68,14 @@ public class lostItemController {
             @RequestParam(value = "lostDate") String lostDate,
             @RequestParam(value = "lostLocation") String lostLocation
     ) throws IOException {
-        String dirName = "lostItems";
-        String fileUrl = s3Uploader.upload(file, dirName);  // 파일 업로드 후 URL 반환
-        postlostItemService.doService(lostItemName, fileUrl, lostDate, lostLocation);  // doService
+        postlostItemService.doService(lostItemName, file, lostDate, lostLocation);
         return ResponseEntity.ok().build();
+    }
+
+    @ExceptionHandler(IOException.class)
+    public ResponseEntity<String> handleIOException(IOException ex) {
+        //로그 남기기, 에러 처리 로직
+        return ResponseEntity.status(500).body("File processing failed: " + ex.getMessage());
     }
 
     // 분실물 수정 API (사진은 수정불가)
