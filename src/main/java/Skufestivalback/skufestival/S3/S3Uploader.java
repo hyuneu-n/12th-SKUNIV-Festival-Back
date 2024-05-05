@@ -13,6 +13,7 @@ import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.util.Optional;
+import java.util.UUID;
 
 @Slf4j
 @RequiredArgsConstructor
@@ -28,11 +29,11 @@ public class S3Uploader {
 
         File uploadFile = convert(multipartFile)
                 .orElseThrow(() -> new IllegalArgumentException("MultipartFile -> File 전환 실패"));
-        return upload(uploadFile, dirName);
+        return upload(uploadFile, dirName, multipartFile.getOriginalFilename());
     }
 
-    private String upload(File uploadFile, String dirName) {
-        String fileName = dirName + "/" + uploadFile.getName();
+    private String upload(File uploadFile, String dirName, String originalName) {
+        String fileName = dirName + "/" + UUID.randomUUID() + originalName; //UUID 사용 변경
         String uploadImageUrl = putS3(uploadFile, fileName);
 
         removeNewFile(uploadFile);  // convert()함수로 인해서 로컬에 생성된 File 삭제 (MultipartFile -> File 전환 하며 로컬에 파일 생성됨)
@@ -43,7 +44,7 @@ public class S3Uploader {
     private String putS3(File uploadFile, String fileName) {
         amazonS3.putObject(
                 new PutObjectRequest(bucket, fileName, uploadFile)
-                        .withCannedAcl(CannedAccessControlList.PublicRead)	// PublicRead 권한으로 업로드 됨
+//                        .withCannedAcl(CannedAccessControlList.PublicRead)	// PublicRead 권한으로 업로드 됨
         );
         return amazonS3.getUrl(bucket, fileName).toString();
     }
@@ -57,7 +58,7 @@ public class S3Uploader {
     }
 
     private Optional<File> convert(MultipartFile file) throws IOException {
-        File convertFile = new File(file.getOriginalFilename()); // 업로드한 파일의 이름
+        File convertFile = new File(System.getProperty("user.dir")+"/"+UUID.randomUUID()); // 업로드한 파일의 이름
         if(convertFile.createNewFile()) {
             try (FileOutputStream fos = new FileOutputStream(convertFile)) {
                 fos.write(file.getBytes());
