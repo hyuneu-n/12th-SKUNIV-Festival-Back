@@ -16,5 +16,5 @@ public class PostlostItemService {
     public void doService(String lostItemName, String fileUrl, String lostDate, String lostLocation) {
         lostItem lostitem = new lostItem(lostItemName, fileUrl, lostDate, lostLocation);
         lostItemRepository.save(lostitem);
-    }
+}
 }

@@ -58,22 +58,6 @@ public class lostItemController {
             @ApiResponse(responseCode = "500", description = "INTERNAL SERVER ERROR")
     })
 
-//    @PostMapping(value = "/post", consumes = "multipart/form-data")
-//    public ResponseEntity<Object> register(
-//            @RequestPart(value = "file", required = true) MultipartFile file,
-//            @RequestParam(value = "lostItemName") String lostItemName,
-//            @RequestParam(value = "lostDate") String lostDate,
-//            @RequestParam(value = "lostLocation") String lostLocation
-//    ) throws IOException {
-//        postlostItemService.doService(lostItemName, file, lostDate, lostLocation);
-//        return ResponseEntity.ok().build();
-//    }
-//
-//    @ExceptionHandler(IOException.class)
-//    public ResponseEntity<String> handleIOException(IOException ex) {
-//        //로그 남기기, 에러 처리 로직
-//        return ResponseEntity.status(500).body("File processing failed: " + ex.getMessage());
-//    }
     @PostMapping(value = "/post", consumes = "multipart/form-data")
     public ResponseEntity<Object> register(
             @RequestPart(value = "file", required = true) MultipartFile file,
