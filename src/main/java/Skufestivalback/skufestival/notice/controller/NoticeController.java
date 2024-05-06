@@ -40,7 +40,19 @@ public class NoticeController {
         List<NoticeResponse> noticeResponses = findNoticeService.doService();
         return ResponseEntity.ok(noticeResponses); // 조회 결과 반환
     }
-
+    @Operation(summary = "getSingleNotice", description = "개별 공지사항 조회", tags = { "Notice" })
+    @ApiResponses({
+            @ApiResponse(responseCode = "200", description = "OK",
+                    content = @Content(schema = @Schema(implementation = NoticeResponse.class))),
+            @ApiResponse(responseCode = "400", description = "BAD REQUEST"),
+            @ApiResponse(responseCode = "404", description = "NOT FOUND"),
+            @ApiResponse(responseCode = "500", description = "INTERNAL SERVER ERROR")
+    })
+    @GetMapping("/post/{id}")
+    public ResponseEntity<NoticeResponse> findById(@PathVariable("id") String noticeId) {
+        NoticeResponse noticeResponse = findNoticeService.findById(noticeId);
+        return ResponseEntity.ok(noticeResponse); // 조회된 개별 공지사항 반환
+    }
     //공지사항 등록 API
     @Operation(summary = "postNotice", description = "공지사항 등록", tags = { "Notice" })
     @ApiResponses({
