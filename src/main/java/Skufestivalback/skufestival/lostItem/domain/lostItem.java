@@ -28,7 +28,7 @@ public class lostItem extends BaseTimeEntity {
     private String lostLocation;
 
     @Column(name = "lost")
-    private Boolean lost;;
+    private Boolean lost=false;;
 
     // 파일 저장 경로 수정
     private static final String FILE_UPLOAD_PATH = "C:\\Users\\hyune\\Desktop\\12th-SKUNIV-Festival-Back\\src\\main\\resources\\static";
