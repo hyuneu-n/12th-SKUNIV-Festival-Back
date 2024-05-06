@@ -57,18 +57,19 @@ public class lostItemController {
             @ApiResponse(responseCode = "404", description = "NOT FOUND"),
             @ApiResponse(responseCode = "500", description = "INTERNAL SERVER ERROR")
     })
-
     @PostMapping(value = "/post", consumes = "multipart/form-data")
     public ResponseEntity<Object> register(
             @RequestPart(value = "file", required = true) MultipartFile file,
             @RequestParam(value = "lostItemName") String lostItemName,
             @RequestParam(value = "lostDate") String lostDate,
             @RequestParam(value = "lostLocation") String lostLocation,
-            @RequestParam(value = "lost") boolean lost
+            @RequestParam(value = "lost", required = false) Boolean lost
     ) throws IOException {
         String dirName = "lostItems";
         String fileUrl = s3Uploader.upload(file, dirName);  // 파일 업로드 후 URL 반환
-        postlostItemService.doService(lostItemName, fileUrl, lostDate, lostLocation, lost);  // doService
+        // lost 값이 null인 경우 기본값으로 false 설정
+        boolean isLost = lost != null ? lost : false;
+        postlostItemService.doService(lostItemName, fileUrl, lostDate, lostLocation, isLost);  // doService
         return ResponseEntity.ok().build();
     }
 
