@@ -63,11 +63,12 @@ public class lostItemController {
             @RequestPart(value = "file", required = true) MultipartFile file,
             @RequestParam(value = "lostItemName") String lostItemName,
             @RequestParam(value = "lostDate") String lostDate,
-            @RequestParam(value = "lostLocation") String lostLocation
+            @RequestParam(value = "lostLocation") String lostLocation,
+            @RequestParam(value = "lost") boolean lost
     ) throws IOException {
         String dirName = "lostItems";
         String fileUrl = s3Uploader.upload(file, dirName);  // 파일 업로드 후 URL 반환
-        postlostItemService.doService(lostItemName, fileUrl, lostDate, lostLocation);  // doService
+        postlostItemService.doService(lostItemName, fileUrl, lostDate, lostLocation, lost);  // doService
         return ResponseEntity.ok().build();
     }
 
