@@ -12,12 +12,12 @@ import lombok.RequiredArgsConstructor;
 @RequiredArgsConstructor
 public class lostItemResponse {
 
-    private final String  createdDate;
-
-    private final String lostItemName;
-    private final String lostItemImagePath;
-    private final String lostDate;
-    private final String lostLocation;
+    private String createdDate;
+    private String lostItemName;
+    private String lostItemImagePath;
+    private String lostDate;
+    private String lostLocation;
+    private boolean lost; // 분실 여부 추가
 
     // 날짜 포맷터 정의
     private static final DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd'T'HH:mm:ss");
