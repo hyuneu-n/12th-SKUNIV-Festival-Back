@@ -27,14 +27,18 @@ public class lostItem extends BaseTimeEntity {
     @Column(name = "lost_location")
     private String lostLocation;
 
+    @Column(name = "lost")
+    private boolean lost;
+
     // 파일 저장 경로 수정
     private static final String FILE_UPLOAD_PATH = "C:\\Users\\hyune\\Desktop\\12th-SKUNIV-Festival-Back\\src\\main\\resources\\static";
 
-    public lostItem(String lostItemName, String lostItemImagePath, String lostDate, String lostLocation) {
+    public lostItem(String lostItemName, String lostItemImagePath, String lostDate, String lostLocation, boolean lost) {
         this.lostItemName = lostItemName;
         this.lostItemImagePath = lostItemImagePath;
         this.lostDate = lostDate;
         this.lostLocation = lostLocation;
+        this.lost = lost;
     }
     //업데이트 메서드
     public void updateDetails(String name, String date, String location) {
