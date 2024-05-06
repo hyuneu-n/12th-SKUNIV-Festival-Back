@@ -9,6 +9,9 @@ import java.util.List;
 @Repository
 public interface lostItemRepository extends JpaRepository<lostItem, Long>, CustomlostItemRepository {
 
+    // 분실 여부에 따라 분실물 조회
+    List<lostItem> findByLost(boolean lost);
+    
     @Query(nativeQuery = true, value = "SELECT * FROM lost_item ORDER BY id DESC")
     List<lostItem> findAllSortedByIdDesc();
 }

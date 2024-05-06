@@ -33,7 +33,7 @@ public class lostItemController {
     private final DeletelostItemService deletelostItemService;
     private final S3Uploader s3Uploader;
 
-    //분실물 조회 API
+    // 분실물 조회 API
     @Operation(summary = "getLostItem", description = "분실물 조회", tags = { "LostItem" })
     @ApiResponses({
             @ApiResponse(responseCode = "200", description = "OK",
@@ -43,8 +43,15 @@ public class lostItemController {
             @ApiResponse(responseCode = "500", description = "INTERNAL SERVER ERROR")
     })
     @GetMapping("/posts")
-    public ResponseEntity<List<lostItemResponse>> find() {
-        List<lostItemResponse> lostItemResponses = findlostItemService.doService();
+    public ResponseEntity<List<lostItemResponse>> find(
+            @RequestParam(value = "lost", required = false) Boolean lost
+    ) {
+        List<lostItemResponse> lostItemResponses;
+        if (lost != null) {
+            lostItemResponses = findlostItemService.findByLost(lost);
+        } else {
+            lostItemResponses = findlostItemService.findAll();
+        }
         return ResponseEntity.ok(lostItemResponses);
     }
 
