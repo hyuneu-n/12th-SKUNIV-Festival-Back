@@ -23,6 +23,7 @@ import java.util.List;
 import java.util.Map;
 
 @RestController
+@CrossOrigin(origins = "https://2024skufestival.site")
 @RequiredArgsConstructor
 @RequestMapping("/api/lostitem")
 public class lostItemController {
