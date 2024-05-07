@@ -22,12 +22,13 @@ public class lostItemResponse {
     // 날짜 포맷터 정의
     private static final DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd'T'HH:mm:ss");
 
-    public lostItemResponse(LocalDateTime createdDate, String lostItemName, String lostItemImagePath, String lostDate, String lostLocation) {
+    public lostItemResponse(LocalDateTime createdDate, String lostItemName, String lostItemImagePath, String lostDate, String lostLocation, boolean lost) {
         this.createdDate = createdDate.atZone(ZoneId.of("Asia/Seoul")).format(formatter);
         this.lostItemName = lostItemName;
         this.lostItemImagePath = lostItemImagePath;
         this.lostDate = lostDate;
         this.lostLocation = lostLocation;
+        this.lost = lost;
     }
 
     // lostItem 엔티티에서 lostItemResponse 객체를 생성하는 팩토리 메소드
@@ -37,7 +38,8 @@ public class lostItemResponse {
                 lostItem.getLostItemName(),
                 lostItem.getLostItemImagePath(),
                 lostItem.getLostDate(),
-                lostItem.getLostLocation()
+                lostItem.getLostLocation(),
+                lostItem.getLost()
         );
     }
 }

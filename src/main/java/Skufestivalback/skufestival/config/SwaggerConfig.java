@@ -11,6 +11,7 @@ import org.springframework.context.annotation.Configuration;
 @OpenAPIDefinition(
         info = @Info(title = "2024skufestival API", description = "2024 서경대학교 축제 부스 안내", version = "v1"),
         servers = @Server(url = "https://dev.skufestival2024.site", description = "서버 URL")
+
 )
 @RequiredArgsConstructor
 @Configuration
