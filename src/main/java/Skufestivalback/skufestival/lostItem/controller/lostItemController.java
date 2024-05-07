@@ -77,7 +77,7 @@ public class lostItemController {
         String fileUrl = s3Uploader.upload(file, dirName);  // 파일 업로드 후 URL 반환
         // lost 값이 null인 경우 기본값으로 false 설정
         boolean isLost = lost != null ? lost : false;
-        postlostItemService.doService(lostItemName, fileUrl, lostDate, lostLocation, isLost);  // doService
+        postlostItemService.doService(lostItemName, fileUrl, lostDate, lostLocation, lost);  // doService
         return ResponseEntity.ok().build();
     }
 
